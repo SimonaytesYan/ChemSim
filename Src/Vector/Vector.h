@@ -13,11 +13,12 @@ class Vector
     sf::Color color;
 
     public : 
-    Vector(double x, double y, sf::Color color);
+    Vector(double x, double y, sf::Color color = sf::Color::White);
     ~Vector();
 
-    double GetX() {return x;};
-    double GetY() {return y;};
+    double    GetX()     {return x;};
+    double    GetY()     {return y;};
+    sf::Color GetColor() {return color;};
 
     void DrawVector(sf::RenderWindow* window, CoordSystem* coord_sys,  
                     double x0, double y0);

@@ -1,5 +1,5 @@
-Exe
-Obj
+Exe/
+Obj/
 *.o
 *.exe
 .vscode

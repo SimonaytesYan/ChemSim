@@ -27,7 +27,7 @@ Vector SumVector(Vector a, Vector b)
 static void DrawCircleTip(sf::RenderWindow* window, CoordSystem* coord_sys, 
                           double x1, double y1, sf::Color color)
 {
-    double r = sqrt(coord_sys->GetUnitX() * coord_sys->GetUnitY())/25;
+    double r = ((coord_sys->GetUnitX() + coord_sys->GetUnitY()) / 2) / 25;
     sf::CircleShape circle(r);
     
     circle.setPosition(x1 - r, y1 - r);
@@ -37,39 +37,51 @@ static void DrawCircleTip(sf::RenderWindow* window, CoordSystem* coord_sys,
 
 }
 
-/*static void DrawTriangleTip(sf::RenderWindow* window, CoordSystem* coord_sys, 
-                            Vector* vec, sf::Color color)
-{
-    double length_tr_side = sqrt(coord_sys->GetUnitX() * coord_sys->GetUnitY())/10;
-
-    double length_x1_y1 = sqrt(vec.GetX() * vec.GetX() + vec.GetY() * vec.GetY());
-    double new_x1       = -vec.GetX() / length_x1_y1 * length_tr_side;
-    double new_y1       = -vec.GetY() / length_x1_y1 * length_tr_side;
-
-    Vector left_side(new_x1, new_y1, sf::Color(0, 255, 255));
-    Vector right_side(new_x1, new_y1, sf::Color(0, 255, 255));
-    
-    left_side.RotateVector(30);
-    right_side.RotateVector(330);
-
-    //printf("left.x = %lg left.y = %lg\n", left_side.GetX(), left_side.GetY());
-    //printf("right.x = %lg right.y = %lg\n", right_side.GetX(), right_side.GetY());
-
-    sf::Vertex tip[] = 
-    {
-        sf::Vertex(sf::Vector2f(x1, y1), color),
-        sf::Vertex(sf::Vector2f(x1 + left_side.GetX(), y1 + left_side.GetY()), color),
-        sf::Vertex(sf::Vector2f(x1 + right_side.GetX(), y1 + right_side.GetY()), color)
-    };
-
-    window->draw(tip, 3, sf::Lines);
-}*/
+//static void DrawTriangleTip(sf::RenderWindow* window, CoordSystem* coord_sys, 
+//                            Vector* vec, double x1, double y1)
+//{
+//    double new_x = -vec->GetX() / vec->VecLength() / 2;
+//    double new_y = -vec->GetY() / vec->VecLength() / 2;
+//
+//    Vector left_side(new_x, new_y);
+//    Vector right_side(new_x, new_y);
+//
+//    printf("new x = %lg\n", new_x);
+//    printf("new y = %lg\n", new_y);
+//
+//    left_side.RotateVector(45);
+//    right_side.RotateVector(315);
+//    printf("l = (%lg, %lg)\n", left_side.GetX(), left_side.GetY());
+//    printf("r = (%lg, %lg)\n", right_side.GetX(), right_side.GetY());
+//
+//    double vertex_coords[] = {vec->GetX(),      vec->GetY(),
+//                              left_side.GetX() + x1, left_side.GetY() + y1,
+//                              right_side.GetX() + x1,right_side.GetY() + y1};
+//
+//    printf("f = (%lg, %lg)\n", vertex_coords[0], vertex_coords[1]);
+//    printf("l = (%lg, %lg)\n", vertex_coords[2], vertex_coords[3]);
+//    printf("r = (%lg, %lg)\n", vertex_coords[4], vertex_coords[5]);
+//
+//    sf::VertexArray tip(sf::Triangles, 3);
+//    for (int i = 0; i < 3; i++)
+//    {
+//        vertex_coords[i*2]     = coord_sys->СoordRecalcX(vertex_coords[i*2]);
+//        vertex_coords[i*2 + 1] = coord_sys->СoordRecalcY(vertex_coords[i*2 + 1]);
+//
+//        tip[i] = sf::Vertex(sf::Vector2f(vertex_coords[i*2], vertex_coords[i*2 + 1]), vec->GetColor());
+//    }
+//
+//    window->draw(tip);
+//}
 
 void Vector::DrawVector(sf::RenderWindow* window, CoordSystem* coord_sys,  
                         double x0, double y0)
 {
+    //DrawTriangleTip(window, coord_sys, this, x + x0, y + y0);
+
     double x1 = coord_sys->СoordRecalcX(x + x0);
     double y1 = coord_sys->СoordRecalcY(y + y0);
+
     x0 = coord_sys->СoordRecalcX(x0);
     y0 = coord_sys->СoordRecalcY(y0);
 
@@ -81,7 +93,6 @@ void Vector::DrawVector(sf::RenderWindow* window, CoordSystem* coord_sys,
 
     DrawCircleTip(window, coord_sys, x1, y1, color);
 
-    //DrawTriangleTip(window, coord_sys, x1, y1, color);
 
     window->draw(line, 2, sf::Lines);
 }
@@ -93,8 +104,10 @@ double Vector::VecLength()
 
 void Vector::RotateVector(double deg)
 {
-    double rot_x = cos(deg);
-    double rot_y = sin(deg);
+    double rad = M_PI / 180 * deg;
+
+    double rot_x = cos(rad);
+    double rot_y = sin(rad);
 
     double old_x = x;
     double old_y = y;

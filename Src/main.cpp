@@ -14,12 +14,15 @@ int main()
 	int windowHeight = window.getSize().y;
 
     Vector a(1, 1, sf::Color(255, 0, 0));
+    Vector a_(a);
     Vector b(-2.5, 1.5, sf::Color(0, 255, 0));
     Vector c = SumVector(a, b);
 
     Vector d(1, 1, sf::Color(0, 0, 255));
 
     CoordSystem coord_sys(window.getSize().x/2, window.getSize().y/2, 200, 200);
+
+    a_.RotateVector(30);
 
     while (window.isOpen())
     {
@@ -40,12 +43,16 @@ int main()
         coord_sys.CoordSystemDraw(&window);
 
         a.DrawVector(&window, &coord_sys, 0, 0);
-        b.DrawVector(&window, &coord_sys, 0, 0);
-        c.DrawVector(&window, &coord_sys, 0, 0);
 
-        d.RotateVector(0.0001);
+        a_.DrawVector(&window,&coord_sys, 0, 0);
 
-        d.DrawVector(&window, &coord_sys, 1, -1);
+
+        //b.DrawVector(&window, &coord_sys, 0, 0);
+        //c.DrawVector(&window, &coord_sys, 0, 0);
+
+        //d.RotateVector(0.0001);
+
+        //d.DrawVector(&window, &coord_sys, 1, -1);
 
 
         window.display();
