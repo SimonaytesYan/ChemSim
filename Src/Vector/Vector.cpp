@@ -43,11 +43,11 @@ static void DrawTriangleTip(sf::RenderWindow* window, CoordSystem* coord_sys,
     double x1 = vec->GetX() + x0;
     double y1 = vec->GetY() + y0;
     
-    double new_x = -vec->GetX() / vec->VecLength() / 10;
-    double new_y = -vec->GetY() / vec->VecLength() / 10;
+    double normal_x = -vec->GetX() / vec->VecLength() / 10;
+    double normal_y = -vec->GetY() / vec->VecLength() / 10;
 
-    Vector left_side(new_x, new_y);
-    Vector right_side(new_x, new_y);
+    Vector left_side(normal_x, normal_y);
+    Vector right_side(normal_x, normal_y);
 
     left_side.RotateVector(45);
     right_side.RotateVector(315);
@@ -68,11 +68,44 @@ static void DrawTriangleTip(sf::RenderWindow* window, CoordSystem* coord_sys,
     window->draw(tip);
 }
 
+static void DrawTriangleTipOptimized(sf::RenderWindow* window, CoordSystem* coord_sys, 
+                                     Vector* vec, double x0, double y0)
+{
+    double x1 = vec->GetX() + x0;
+    double y1 = vec->GetY() + y0;
+
+    double normal_x = vec->GetX() / vec->VecLength() / 10;
+    double normal_y = vec->GetY() / vec->VecLength() / 10;
+
+    Vector left_normal(normal_y, -normal_x);
+    Vector right_normal(-normal_y, normal_x);
+
+    Vector reverse(-normal_x, -normal_y);
+
+    Vector left_side  = SumVector(left_normal, reverse);
+    Vector right_side = SumVector(right_normal, reverse);
+
+    double vertex_coords[] = {x1, y1,
+                              left_side.GetX() + x1, left_side.GetY() + y1,
+                              right_side.GetX() + x1,right_side.GetY() + y1};
+
+    sf::VertexArray tip(sf::Triangles, 3);
+    for (int i = 0; i < 3; i++)
+    {
+        vertex_coords[i*2]     = coord_sys->СoordRecalcX(vertex_coords[i*2]);
+        vertex_coords[i*2 + 1] = coord_sys->СoordRecalcY(vertex_coords[i*2 + 1]);
+
+        tip[i] = sf::Vertex(sf::Vector2f(vertex_coords[i*2], vertex_coords[i*2 + 1]), vec->GetColor());
+    }
+
+    window->draw(tip);
+}
+
 void Vector::DrawVector(sf::RenderWindow* window, CoordSystem* coord_sys,  
                         double x0, double y0)
 {
-    DrawTriangleTip(window, coord_sys, this, x0, y0);
-
+    DrawTriangleTipOptimized(window, coord_sys, this, x0, y0);
+    
     double x1 = coord_sys->СoordRecalcX(x + x0);
     double y1 = coord_sys->СoordRecalcY(y + y0);
 

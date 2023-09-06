@@ -18,7 +18,7 @@ int main()
     Vector b(-2.5, 1.5, sf::Color(0, 255, 0));
     Vector c = SumVector(a, b);
 
-    Vector d(1, 1, sf::Color(0, 0, 255));
+    Vector d(1, 1, sf::Color(255, 255, 255));
 
     CoordSystem coord_sys(window.getSize().x/2, window.getSize().y/2, 200, 200);
 
@@ -44,7 +44,7 @@ int main()
         b.DrawVector(&window, &coord_sys, 0, 0);
         c.DrawVector(&window, &coord_sys, 0, 0);
 
-        d.RotateVector(0.02);
+        d.RotateVector(0.01);
 
         d.DrawVector(&window, &coord_sys, 1, -1);
 
