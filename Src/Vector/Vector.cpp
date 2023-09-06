@@ -38,29 +38,23 @@ static void DrawCircleTip(sf::RenderWindow* window, CoordSystem* coord_sys,
 }
 
 static void DrawTriangleTip(sf::RenderWindow* window, CoordSystem* coord_sys, 
-                            Vector* vec, double x1, double y1)
+                            Vector* vec, double x0, double y0)
 {
-    double new_x = -vec->GetX() / vec->VecLength() / 2;
-    double new_y = -vec->GetY() / vec->VecLength() / 2;
+    double x1 = vec->GetX() + x0;
+    double y1 = vec->GetY() + y0;
+    
+    double new_x = -vec->GetX() / vec->VecLength() / 10;
+    double new_y = -vec->GetY() / vec->VecLength() / 10;
 
     Vector left_side(new_x, new_y);
     Vector right_side(new_x, new_y);
 
-    printf("new x = %lg\n", new_x);
-    printf("new y = %lg\n", new_y);
-
     left_side.RotateVector(45);
     right_side.RotateVector(315);
-    printf("l = (%lg, %lg)\n", left_side.GetX(), left_side.GetY());
-    printf("r = (%lg, %lg)\n", right_side.GetX(), right_side.GetY());
 
-    double vertex_coords[] = {vec->GetX(),      vec->GetY(),
+    double vertex_coords[] = {x1, y1,
                               left_side.GetX() + x1, left_side.GetY() + y1,
                               right_side.GetX() + x1,right_side.GetY() + y1};
-
-    printf("f = (%lg, %lg)\n", vertex_coords[0], vertex_coords[1]);
-    printf("l = (%lg, %lg)\n", vertex_coords[2], vertex_coords[3]);
-    printf("r = (%lg, %lg)\n", vertex_coords[4], vertex_coords[5]);
 
     sf::VertexArray tip(sf::Triangles, 3);
     for (int i = 0; i < 3; i++)
@@ -77,7 +71,7 @@ static void DrawTriangleTip(sf::RenderWindow* window, CoordSystem* coord_sys,
 void Vector::DrawVector(sf::RenderWindow* window, CoordSystem* coord_sys,  
                         double x0, double y0)
 {
-    //DrawTriangleTip(window, coord_sys, this, x + x0, y + y0);
+    DrawTriangleTip(window, coord_sys, this, x0, y0);
 
     double x1 = coord_sys->СoordRecalcX(x + x0);
     double y1 = coord_sys->СoordRecalcY(y + y0);
@@ -90,9 +84,6 @@ void Vector::DrawVector(sf::RenderWindow* window, CoordSystem* coord_sys,
         sf::Vertex(sf::Vector2f(x0, y0), color),
         sf::Vertex(sf::Vector2f(x1, y1), color)
     };
-
-    DrawCircleTip(window, coord_sys, x1, y1, color);
-
 
     window->draw(line, 2, sf::Lines);
 }

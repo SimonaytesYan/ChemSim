@@ -22,8 +22,6 @@ int main()
 
     CoordSystem coord_sys(window.getSize().x/2, window.getSize().y/2, 200, 200);
 
-    a_.RotateVector(30);
-
     while (window.isOpen())
     {
         sf::Event event;
@@ -43,16 +41,12 @@ int main()
         coord_sys.CoordSystemDraw(&window);
 
         a.DrawVector(&window, &coord_sys, 0, 0);
+        b.DrawVector(&window, &coord_sys, 0, 0);
+        c.DrawVector(&window, &coord_sys, 0, 0);
 
-        a_.DrawVector(&window,&coord_sys, 0, 0);
+        d.RotateVector(0.02);
 
-
-        //b.DrawVector(&window, &coord_sys, 0, 0);
-        //c.DrawVector(&window, &coord_sys, 0, 0);
-
-        //d.RotateVector(0.0001);
-
-        //d.DrawVector(&window, &coord_sys, 1, -1);
+        d.DrawVector(&window, &coord_sys, 1, -1);
 
 
         window.display();
