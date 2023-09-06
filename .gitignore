@@ -1,0 +1,5 @@
+Exe
+Obj
+*.o
+*.exe
+.vscode
