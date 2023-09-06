@@ -37,42 +37,42 @@ static void DrawCircleTip(sf::RenderWindow* window, CoordSystem* coord_sys,
 
 }
 
-//static void DrawTriangleTip(sf::RenderWindow* window, CoordSystem* coord_sys, 
-//                            Vector* vec, double x1, double y1)
-//{
-//    double new_x = -vec->GetX() / vec->VecLength() / 2;
-//    double new_y = -vec->GetY() / vec->VecLength() / 2;
-//
-//    Vector left_side(new_x, new_y);
-//    Vector right_side(new_x, new_y);
-//
-//    printf("new x = %lg\n", new_x);
-//    printf("new y = %lg\n", new_y);
-//
-//    left_side.RotateVector(45);
-//    right_side.RotateVector(315);
-//    printf("l = (%lg, %lg)\n", left_side.GetX(), left_side.GetY());
-//    printf("r = (%lg, %lg)\n", right_side.GetX(), right_side.GetY());
-//
-//    double vertex_coords[] = {vec->GetX(),      vec->GetY(),
-//                              left_side.GetX() + x1, left_side.GetY() + y1,
-//                              right_side.GetX() + x1,right_side.GetY() + y1};
-//
-//    printf("f = (%lg, %lg)\n", vertex_coords[0], vertex_coords[1]);
-//    printf("l = (%lg, %lg)\n", vertex_coords[2], vertex_coords[3]);
-//    printf("r = (%lg, %lg)\n", vertex_coords[4], vertex_coords[5]);
-//
-//    sf::VertexArray tip(sf::Triangles, 3);
-//    for (int i = 0; i < 3; i++)
-//    {
-//        vertex_coords[i*2]     = coord_sys->СoordRecalcX(vertex_coords[i*2]);
-//        vertex_coords[i*2 + 1] = coord_sys->СoordRecalcY(vertex_coords[i*2 + 1]);
-//
-//        tip[i] = sf::Vertex(sf::Vector2f(vertex_coords[i*2], vertex_coords[i*2 + 1]), vec->GetColor());
-//    }
-//
-//    window->draw(tip);
-//}
+static void DrawTriangleTip(sf::RenderWindow* window, CoordSystem* coord_sys, 
+                            Vector* vec, double x1, double y1)
+{
+    double new_x = -vec->GetX() / vec->VecLength() / 2;
+    double new_y = -vec->GetY() / vec->VecLength() / 2;
+
+    Vector left_side(new_x, new_y);
+    Vector right_side(new_x, new_y);
+
+    printf("new x = %lg\n", new_x);
+    printf("new y = %lg\n", new_y);
+
+    left_side.RotateVector(45);
+    right_side.RotateVector(315);
+    printf("l = (%lg, %lg)\n", left_side.GetX(), left_side.GetY());
+    printf("r = (%lg, %lg)\n", right_side.GetX(), right_side.GetY());
+
+    double vertex_coords[] = {vec->GetX(),      vec->GetY(),
+                              left_side.GetX() + x1, left_side.GetY() + y1,
+                              right_side.GetX() + x1,right_side.GetY() + y1};
+
+    printf("f = (%lg, %lg)\n", vertex_coords[0], vertex_coords[1]);
+    printf("l = (%lg, %lg)\n", vertex_coords[2], vertex_coords[3]);
+    printf("r = (%lg, %lg)\n", vertex_coords[4], vertex_coords[5]);
+
+    sf::VertexArray tip(sf::Triangles, 3);
+    for (int i = 0; i < 3; i++)
+    {
+        vertex_coords[i*2]     = coord_sys->СoordRecalcX(vertex_coords[i*2]);
+        vertex_coords[i*2 + 1] = coord_sys->СoordRecalcY(vertex_coords[i*2 + 1]);
+
+        tip[i] = sf::Vertex(sf::Vector2f(vertex_coords[i*2], vertex_coords[i*2 + 1]), vec->GetColor());
+    }
+
+    window->draw(tip);
+}
 
 void Vector::DrawVector(sf::RenderWindow* window, CoordSystem* coord_sys,  
                         double x0, double y0)
