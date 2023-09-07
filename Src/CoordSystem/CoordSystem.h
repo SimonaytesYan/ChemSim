@@ -20,8 +20,15 @@ class CoordSystem
     double GetUnitX() {return unit_x;};
     double GetUnitY() {return unit_y;};
 
-    double СoordRecalcX(double x) {return x * unit_x + x0;};
-    double СoordRecalcY(double y) {return -y * unit_y + y0;};
+    double СoordRecalcX(double x)   //from x in coordination system makes x on the window
+    {return x * unit_x + x0;};
+    double СoordRecalcY(double y)   //from y in coordination system makes y on the window
+    {return -y * unit_y + y0;};
+
+    double CoordReverseRecalcX(double x)   //from x on the window makes x in coordination system
+    {return (x - x0) / unit_x;};
+    double CoordReverseRecalcY(double y)   //from y on the window makes y in coordination system
+    {return -(y - y0) / unit_x;};
 
     void CoordSystemDraw(sf::RenderWindow* window);
 };

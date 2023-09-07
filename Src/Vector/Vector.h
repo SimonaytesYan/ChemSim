@@ -22,12 +22,26 @@ class Vector
 
     void DrawVector(sf::RenderWindow* window, CoordSystem* coord_sys,  
                     double x0, double y0);
-    double VecLength();
+    inline double VecLength() const;
     void RotateVector(double deg);
 
-    friend Vector SumVector(Vector a, Vector b);
+    friend Vector operator+(const Vector& a, const Vector& b);
+    friend Vector operator-(const Vector& a);
+    friend Vector operator-(const Vector& a, const Vector& b);
+    friend Vector operator*(const Vector& a, double b);
+    friend Vector operator/(const Vector& a, double b);
+    friend double operator,(const Vector& a, const Vector& b);  
+    friend Vector operator!(const Vector& a);
+    friend Vector operator+(const Vector& a);
 };
 
-Vector SumVector(Vector a, Vector b);
+Vector operator+(const Vector& a, const Vector& b);
+Vector operator-(const Vector& a);
+Vector operator-(const Vector& a, const Vector& b);
+Vector operator*(const Vector& a, double b);
+Vector operator/(const Vector& a, double b);
+double operator,(const Vector& a, const Vector& b);		//scalar product
+Vector operator!(const Vector& a);						//return normalized vector
+Vector operator+(const Vector& a);						//return normal to vector
 
 #endif //SYM_GEOM_VECTOR

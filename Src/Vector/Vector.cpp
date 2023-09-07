@@ -14,14 +14,56 @@ Vector::~Vector()
     this->y = NAN;
 }
 
-Vector SumVector(Vector a, Vector b)
+Vector operator+(const Vector& a, const Vector& b)
 {
-    sf::Color new_color = sf::Color((a.color.r + b.color.r)/2, 
-                                    (a.color.g + b.color.g)/2,
-                                    (a.color.b + b.color.b)/2);
+    sf::Color new_color((a.color.r + b.color.r)/2, 
+                        (a.color.g + b.color.g)/2,
+                        (a.color.b + b.color.b)/2);
 
     Vector res = Vector(a.x + b.x, a.y + b.y, new_color);
     return res;
+}
+
+Vector operator-(const Vector& a)
+{
+    return Vector(-a.x, -a.y, a.color);
+}
+
+Vector operator-(const Vector& a, const Vector& b)
+{
+    sf::Color new_color((a.color.r + b.color.r)/2, 
+                        (a.color.g + b.color.g)/2,
+                        (a.color.b + b.color.b)/2);
+
+    return Vector(a.x - b.x, a.y - b.y);
+}
+
+Vector operator*(const Vector& a, double b)
+{
+    return Vector(a.x * b, a.y * b, a.color);
+}
+
+Vector operator/(const Vector& a, double b)
+{
+    return Vector(a.x / b, a.y / b, a.color);
+}
+
+double operator,(const Vector& a, const Vector& b)
+{
+    return a.x * b.x + a.y * b.y;
+}
+
+Vector operator!(const Vector& a)
+{
+    return Vector(a.x / a.VecLength(), a.y / a.VecLength());
+}
+
+Vector operator+(const Vector& a)
+{
+    sf::Color new_color(255 - a.color.r, 
+                        255 - a.color.g, 
+                        255 - a.color.b);
+    return Vector(-a.y, a.x, new_color);
 }
 
 static void DrawCircleTip(sf::RenderWindow* window, CoordSystem* coord_sys, 
@@ -82,8 +124,8 @@ static void DrawTriangleTipOptimized(sf::RenderWindow* window, CoordSystem* coor
 
     Vector reverse(-normal_x, -normal_y);
 
-    Vector left_side  = SumVector(left_normal, reverse);
-    Vector right_side = SumVector(right_normal, reverse);
+    Vector left_side  = left_normal  + reverse;
+    Vector right_side = right_normal + reverse;
 
     double vertex_coords[] = {x1, y1,
                               left_side.GetX() + x1, left_side.GetY() + y1,
@@ -121,9 +163,9 @@ void Vector::DrawVector(sf::RenderWindow* window, CoordSystem* coord_sys,
     window->draw(line, 2, sf::Lines);
 }
 
-double Vector::VecLength()
-{
-    return sqrt(x*x + y*y);
+inline double Vector::VecLength() const
+{ 
+	return sqrt(x*x + y*y);
 }
 
 void Vector::RotateVector(double deg)
