@@ -4,20 +4,16 @@ void SubWindow::Draw(sf::RenderWindow* window)      //Clear SubWindow
 {
     int weight = 10;
 
-    sf::RectangleShape left  (sf::Vector2f(weight, this->getSize().y));
-    sf::RectangleShape right (sf::Vector2f(weight, this->getSize().y)); //this->getSize().x  - weight 
-    sf::RectangleShape top   (sf::Vector2f(this->getSize().x, weight));
-    sf::RectangleShape bottom(sf::Vector2f(this->getSize().x, weight));
+    sf::RectangleShape frame(sf::Vector2f(this->getSize().x - 2 * weight, 
+                                          this->getSize().y - 2 * weight));
+    frame.setPosition(weight, weight);
+    
+    frame.setFillColor(sf::Color::Transparent);
+    
+    frame.setOutlineThickness(weight);
+    frame.setOutlineColor(sf::Color(255, 255, 255));
 
-    left.setPosition  (sf::Vector2f(0, 0));
-    right.setPosition (sf::Vector2f(this->getSize().x  - weight, 0));
-    top.setPosition   (sf::Vector2f(0, 0));
-    bottom.setPosition(sf::Vector2f(0, this->getSize().y - weight));
-
-    this->draw(left);
-    this->draw(right);
-    this->draw(top);
-    this->draw(bottom);
+    this->draw(frame);
 
     this->display();
 
