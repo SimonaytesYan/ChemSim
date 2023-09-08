@@ -2,6 +2,7 @@
 
 #include "CoordSystem.h"
 #include "../Vector/Vector.h"
+#include "../SubWindow/SubWindow.h"
 
 CoordSystem::CoordSystem(double X0, double Y0, double unit_X, double unit_Y) :
 x0 (X0),
@@ -20,8 +21,8 @@ CoordSystem::~CoordSystem()
 
 void CoordSystem::CoordSystemDraw(SubWindow* window)
 {
-    Vector OX(window->getSize().x / this->unit_x, 0);
-    Vector OY(0, window->getSize().y / this->unit_y);
+    Vector OX((window->getSize().x - kThicknessWeight) / this->unit_x, 0);
+    Vector OY(0, (window->getSize().y - kThicknessWeight) / this->unit_y);
 
     OX.DrawVector(window, this, -(window->getSize().x / this->unit_x) / 2, 0);
     OY.DrawVector(window, this, 0, -(window->getSize().y / this->unit_y) / 2);

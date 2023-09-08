@@ -2,15 +2,14 @@
 
 void SubWindow::Draw(sf::RenderWindow* window)      //Clear SubWindow
 {
-    int weight = 10;
 
-    sf::RectangleShape frame(sf::Vector2f(this->getSize().x - 2 * weight, 
-                                          this->getSize().y - 2 * weight));
-    frame.setPosition(weight, weight);
+    sf::RectangleShape frame(sf::Vector2f(this->getSize().x - 2 * kThicknessWeight, 
+                                          this->getSize().y - 2 * kThicknessWeight));
+    frame.setPosition(kThicknessWeight, kThicknessWeight);
     
     frame.setFillColor(sf::Color::Transparent);
     
-    frame.setOutlineThickness(weight);
+    frame.setOutlineThickness(kThicknessWeight);
     frame.setOutlineColor(sf::Color(255, 255, 255));
 
     this->draw(frame);

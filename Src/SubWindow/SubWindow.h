@@ -4,6 +4,8 @@
 #include <SFML/Graphics.hpp>
 #include <cmath>
 
+const int kThicknessWeight = 10;
+
 class SubWindow : public sf::RenderTexture
 {
     double x0;
