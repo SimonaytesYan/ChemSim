@@ -14,6 +14,9 @@ class SubWindow : public sf::RenderTexture
     x0 (X0),
     y0 (Y0)
     { this->create(weight, height); }
+    
+    double GetX0() {return x0;}
+    double GetY0() {return y0;} 
 
     ~SubWindow()
     {
@@ -23,7 +26,7 @@ class SubWindow : public sf::RenderTexture
     }
 
     void Draw(sf::RenderWindow* window);
-    bool InSubWindow_p(double x, double y);
+    bool Inside_p(double x, double y);
 };
 
 #endif  //SYM_SUB_WINDOW

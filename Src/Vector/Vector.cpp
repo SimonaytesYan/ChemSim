@@ -65,6 +65,13 @@ Vector operator+(const Vector& a)
     return Vector(-a.y, a.x, new_color);
 }
 
+Vector operator^(const Vector& a, double b)
+{
+    Vector vec = a;
+    vec.RotateVector(-b);
+    return vec;
+}
+
 static void DrawCircleTip(SubWindow* window, CoordSystem* coord_sys, 
                           double x1, double y1, sf::Color color)
 {

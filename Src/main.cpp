@@ -12,8 +12,8 @@ int main()
                             kWindowHeader, sf::Style::Fullscreen);
 
 	SubWindow window1(0, 					    0, 
-					  window.getSize().x / 2.5, window.getSize().x / 2.5);
-	SubWindow window2(window.getSize().x / 2,   window.getSize().y / 3, 
+					  window.getSize().x / 4, window.getSize().x / 4);
+	SubWindow window2(window.getSize().x / 3,   0, 
 					  window.getSize().x / 2, window.getSize().x / 2);
     
 	CoordSystem coord_sys1(window1.getSize().x / 2, window1.getSize().y / 2, 100, 100);
@@ -43,7 +43,8 @@ int main()
 
     printf("(a, b) = %lg\n", (a, b));
 
-	Vector mouse_vector(0, 0);
+	Vector mouse_vector1(0, 0);
+	Vector mouse_vector2(0, 0);
 
 	while (window.isOpen())
 	{
@@ -59,20 +60,27 @@ int main()
 
 				case sf::Event::MouseButtonPressed:
 				{
-					if (window1.InSubWindow_p(event.mouseButton.x, event.mouseButton.y))
-					mouse_vector = Vector(coord_sys1.CoordReverseRecalcX(event.mouseButton.x),
-											  coord_sys1.CoordReverseRecalcY(event.mouseButton.y),
-											  sf::Color::Magenta);
+					double mouse_x = event.mouseButton.x;
+					double mouse_y = event.mouseButton.y;
+
+					if (window1.Inside_p(mouse_x, mouse_y))
+						mouse_vector1 = Vector(coord_sys1.CoordReverseRecalcX(mouse_x - window1.GetX0()),
+											   coord_sys1.CoordReverseRecalcY(mouse_y - window1.GetY0()),
+											   sf::Color::Magenta);
+					
+					if (window2.Inside_p(mouse_x, mouse_y))
+						mouse_vector2 = Vector(coord_sys2.CoordReverseRecalcX(mouse_x - window2.GetX0()),
+											   coord_sys2.CoordReverseRecalcY(mouse_y - window2.GetY0()),
+											   sf::Color::Magenta);
+						
 				}
 			}
 		}
-
-        window1.clear();
         
         coord_sys1.CoordSystemDraw(&window1);
 		coord_sys2.CoordSystemDraw(&window2);
 
-		vectors1[4].RotateVector(0.01);
+		vectors1[4] = vectors1[4] ^ 0.01;
 
 		for (int i = 0; i < 5; i++)
 			vectors1[i].DrawVector(&window1, &coord_sys1, 0, 0);
@@ -80,7 +88,8 @@ int main()
 		for (int i = 0; i < 5; i++)
 			vectors2[i].DrawVector(&window2, &coord_sys2, 0, 0);
 
-		mouse_vector.DrawVector(&window1, &coord_sys1, 0, 0);
+		mouse_vector1.DrawVector(&window1, &coord_sys1, 0, 0);
+		mouse_vector2.DrawVector(&window2, &coord_sys2, 0, 0);
 
 		window1.Draw(&window);
 		window2.Draw(&window);

@@ -33,6 +33,7 @@ class Vector
     friend double operator,(const Vector& a, const Vector& b);  
     friend Vector operator!(const Vector& a);
     friend Vector operator+(const Vector& a);
+    friend Vector operator^(const Vector& a, double b);
 };
 
 Vector operator+(const Vector& a, const Vector& b);
@@ -43,5 +44,6 @@ Vector operator/(const Vector& a, double b);
 double operator,(const Vector& a, const Vector& b);		//scalar product
 Vector operator!(const Vector& a);						//return normalized vector
 Vector operator+(const Vector& a);						//return normal to vector
+Vector operator^(const Vector& a, double b);            //rotate a by b degrees clockwise
 
 #endif //SYM_GEOM_VECTOR
