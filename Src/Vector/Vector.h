@@ -20,7 +20,7 @@ class Vector
     double    GetY()     {return y;};
     sf::Color GetColor() {return color;};
 
-    void DrawVector(sf::RenderWindow* window, CoordSystem* coord_sys,  
+    void DrawVector(SubWindow* texture, CoordSystem* coord_sys,  
                     double x0, double y0);
     inline double VecLength() const;
     void RotateVector(double deg);

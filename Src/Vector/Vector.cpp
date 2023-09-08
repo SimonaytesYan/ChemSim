@@ -26,16 +26,15 @@ Vector operator+(const Vector& a, const Vector& b)
 
 Vector operator-(const Vector& a)
 {
-    return Vector(-a.x, -a.y, a.color);
+    sf::Color new_color(255 - a.color.r, 
+                        255 - a.color.g, 
+                        255 - a.color.b);
+    return Vector(-a.x, -a.y, new_color);
 }
 
 Vector operator-(const Vector& a, const Vector& b)
 {
-    sf::Color new_color((a.color.r + b.color.r)/2, 
-                        (a.color.g + b.color.g)/2,
-                        (a.color.b + b.color.b)/2);
-
-    return Vector(a.x - b.x, a.y - b.y);
+    return a + (-b);
 }
 
 Vector operator*(const Vector& a, double b)
@@ -66,7 +65,7 @@ Vector operator+(const Vector& a)
     return Vector(-a.y, a.x, new_color);
 }
 
-static void DrawCircleTip(sf::RenderWindow* window, CoordSystem* coord_sys, 
+static void DrawCircleTip(SubWindow* window, CoordSystem* coord_sys, 
                           double x1, double y1, sf::Color color)
 {
     double r = ((coord_sys->GetUnitX() + coord_sys->GetUnitY()) / 2) / 25;
@@ -76,10 +75,9 @@ static void DrawCircleTip(sf::RenderWindow* window, CoordSystem* coord_sys,
     circle.setFillColor(color);
 
     window->draw(circle);
-
 }
 
-static void DrawTriangleTip(sf::RenderWindow* window, CoordSystem* coord_sys, 
+static void DrawTriangleTip(SubWindow* window, CoordSystem* coord_sys, 
                             Vector* vec, double x0, double y0)
 {
     double x1 = vec->GetX() + x0;
@@ -110,7 +108,7 @@ static void DrawTriangleTip(sf::RenderWindow* window, CoordSystem* coord_sys,
     window->draw(tip);
 }
 
-static void DrawTriangleTipOptimized(sf::RenderWindow* window, CoordSystem* coord_sys, 
+static void DrawTriangleTipOptimized(SubWindow* window, CoordSystem* coord_sys, 
                                      Vector* vec, double x0, double y0)
 {
     double x1 = vec->GetX() + x0;
@@ -143,7 +141,7 @@ static void DrawTriangleTipOptimized(sf::RenderWindow* window, CoordSystem* coor
     window->draw(tip);
 }
 
-void Vector::DrawVector(sf::RenderWindow* window, CoordSystem* coord_sys,  
+void Vector::DrawVector(SubWindow* window, CoordSystem* coord_sys,  
                         double x0, double y0)
 {
     DrawTriangleTipOptimized(window, coord_sys, this, x0, y0);

@@ -11,9 +11,10 @@ debug:
 	g++ $(SFML_FLAGS) $(DEBUG_FLAGS) $(SRC_FOLDER)/main.cpp $(OBJ_FOLDER)/Vector.o -o $(EXE_FILE)
 
 release:
+	g++ -c $(RELEASE_FLAGS) $(SRC_FOLDER)/SubWindow/SubWindow.cpp -o $(OBJ_FOLDER)/SubWindow.o
 	g++ -c $(RELEASE_FLAGS) $(SRC_FOLDER)/CoordSystem/CoordSystem.cpp -o $(OBJ_FOLDER)/CoordSystem.o
 	g++ -c $(RELEASE_FLAGS) $(SRC_FOLDER)/Vector/Vector.cpp -o $(OBJ_FOLDER)/Vector.o
-	g++ $(SFML_FLAGS) $(RELEASE_FLAGS) $(SRC_FOLDER)/main.cpp $(OBJ_FOLDER)/Vector.o $(OBJ_FOLDER)/CoordSystem.o -o $(EXE_FILE)
+	g++ $(SFML_FLAGS) $(RELEASE_FLAGS) $(SRC_FOLDER)/main.cpp $(OBJ_FOLDER)/Vector.o $(OBJ_FOLDER)/CoordSystem.o $(OBJ_FOLDER)/SubWindow.o -o $(EXE_FILE)
 
 run:
 	./$(EXE_FILE)

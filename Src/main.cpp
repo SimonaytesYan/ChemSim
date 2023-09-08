@@ -1,38 +1,49 @@
 #include <SFML/Graphics.hpp>
 
 #include "CoordSystem/CoordSystem.h"
+#include "SubWindow/SubWindow.h"
 #include "Vector/Vector.h"
 
-const char kWindowHeader[] = "Window";
+const char kWindowHeader[] = "Windows";
 
 int main()
 {
     sf::RenderWindow window(sf::VideoMode(), 
                             kWindowHeader, sf::Style::Fullscreen);
+
+	SubWindow window1(0, 					    0, 
+					  window.getSize().x / 2.5, window.getSize().x / 2.5);
+	SubWindow window2(window.getSize().x / 2,   window.getSize().y / 3, 
+					  window.getSize().x / 2.5, window.getSize().x / 2.5);
     
-	int windowWeight = window.getSize().x;
-	int windowHeight = window.getSize().y;
-    
-	CoordSystem coord_sys(window.getSize().x / 2, window.getSize().y / 2, 100, 100);
+	CoordSystem coord_sys1(window1.getSize().x / 2, window1.getSize().y / 2, 100, 100);
+	CoordSystem coord_sys2(window2.getSize().x / 2, window2.getSize().y / 2, 75, 75);
 
 	Vector a(1, 1, sf::Color(255, 0, 0));
 	Vector b(-2.5, 1.5, sf::Color(0, 255, 0));
 	Vector c(1, 1, sf::Color(0, 0, 255));
 
-	Vector vectors[] = 
+	Vector vectors1[] = 
 	{
+		a,
+		a * 2,
+		!a,			//normalized
+		+a,			//normal
+		c,
+	};
+
+	Vector vectors2[] = 
+	{
+		a,
+		b,
 		a + b,
 		-(a + b),	//minus
 		a - b,
-		a * 2,
-		b / 2,
-		!a,			//normalized
-		+a,			//normal
 	};
 
     printf("(a, b) = %lg\n", (a, b));
 
-	Vector* mouse_vector = nullptr;
+	Vector mouse_vector(0, 0);
 
 	while (window.isOpen())
 	{
@@ -48,37 +59,31 @@ int main()
 
 				case sf::Event::MouseButtonPressed:
 				{
-					if (mouse_vector != nullptr)
-						delete mouse_vector;
-
-					mouse_vector = new Vector(coord_sys.CoordReverseRecalcX(event.mouseButton.x),
-											  coord_sys.CoordReverseRecalcY(event.mouseButton.y),
+					mouse_vector = Vector(coord_sys1.CoordReverseRecalcX(event.mouseButton.x),
+											  coord_sys1.CoordReverseRecalcY(event.mouseButton.y),
 											  sf::Color::Magenta);
 				}
 			}
 		}
 
-        window.clear();
+        window1.clear();
         
-        coord_sys.CoordSystemDraw(&window);
+        coord_sys1.CoordSystemDraw(&window1);
+		coord_sys2.CoordSystemDraw(&window2);
 
-        a.DrawVector(&window, &coord_sys, 0, 0);
-        b.DrawVector(&window, &coord_sys, 0, 0);
-        
-        c.RotateVector(0.01);
-        c.DrawVector(&window, &coord_sys, -1, -1);
+		vectors1[4].RotateVector(0.01);
 
-		vectors[0].DrawVector(&window, &coord_sys, 0, 0);
-		vectors[1].DrawVector(&window, &coord_sys, 0, 0);
-		vectors[2].DrawVector(&window, &coord_sys, 0, 0);
-		vectors[3].DrawVector(&window, &coord_sys, 0, 0);
-		vectors[4].DrawVector(&window, &coord_sys, 0, 0);
-		vectors[5].DrawVector(&window, &coord_sys, 0, 0);
-		vectors[6].DrawVector(&window, &coord_sys, a.GetX(), a.GetY());
+		for (int i = 0; i < 5; i++)
+			vectors1[i].DrawVector(&window1, &coord_sys1, 0, 0);
 
-		if (mouse_vector != nullptr)
-			mouse_vector->DrawVector(&window, &coord_sys, 0, 0);
+		for (int i = 0; i < 5; i++)
+			vectors2[i].DrawVector(&window2, &coord_sys2, 0, 0);
 
-        window.display();
+		mouse_vector.DrawVector(&window1, &coord_sys1, 0, 0);
+
+		window1.Draw(&window);
+		window2.Draw(&window);
+
+		window.display();
     }
 }

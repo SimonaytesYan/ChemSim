@@ -1,6 +1,7 @@
 #include <cmath>
 
 #include "CoordSystem.h"
+#include "../Vector/Vector.h"
 
 CoordSystem::CoordSystem(double X0, double Y0, double unit_X, double unit_Y) :
 x0 (X0),
@@ -17,19 +18,13 @@ CoordSystem::~CoordSystem()
     unit_y = NAN;
 }
 
-void CoordSystem::CoordSystemDraw(sf::RenderWindow* window)
+void CoordSystem::CoordSystemDraw(SubWindow* window)
 {
-    sf::Vertex OX[] =
-    {
-        sf::Vertex(sf::Vector2f(0, y0)),
-        sf::Vertex(sf::Vector2f(window->getSize().x, y0))
-    };
+    Vector OX(window->getSize().x / this->unit_x, 0);
+    Vector OY(0, window->getSize().y / this->unit_y);
 
-    sf::Vertex OY[] =
-    {
-        sf::Vertex(sf::Vector2f(x0, 0)),
-        sf::Vertex(sf::Vector2f(x0, window->getSize().y))
-    };
+    OX.DrawVector(window, this, -(window->getSize().x / this->unit_x) / 2, 0);
+    OY.DrawVector(window, this, 0, -(window->getSize().y / this->unit_y) / 2);
 
     double r_x = unit_x / 30;
     double r_y = unit_y / 30;
@@ -65,7 +60,4 @@ void CoordSystem::CoordSystemDraw(sf::RenderWindow* window)
 
         window->draw(circle);
     }
-
-    window->draw(OX, 2, sf::Lines);
-    window->draw(OY, 2, sf::Lines);
 }
