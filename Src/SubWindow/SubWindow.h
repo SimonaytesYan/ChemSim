@@ -23,6 +23,7 @@ class SubWindow : public sf::RenderTexture
     }
 
     void Draw(sf::RenderWindow* window);
+    bool InSubWindow_p(double x, double y);
 };
 
 #endif  //SYM_SUB_WINDOW

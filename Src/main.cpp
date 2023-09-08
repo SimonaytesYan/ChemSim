@@ -14,7 +14,7 @@ int main()
 	SubWindow window1(0, 					    0, 
 					  window.getSize().x / 2.5, window.getSize().x / 2.5);
 	SubWindow window2(window.getSize().x / 2,   window.getSize().y / 3, 
-					  window.getSize().x / 2.5, window.getSize().x / 2.5);
+					  window.getSize().x / 2, window.getSize().x / 2);
     
 	CoordSystem coord_sys1(window1.getSize().x / 2, window1.getSize().y / 2, 100, 100);
 	CoordSystem coord_sys2(window2.getSize().x / 2, window2.getSize().y / 2, 75, 75);
@@ -59,6 +59,7 @@ int main()
 
 				case sf::Event::MouseButtonPressed:
 				{
+					if (window1.InSubWindow_p(event.mouseButton.x, event.mouseButton.y))
 					mouse_vector = Vector(coord_sys1.CoordReverseRecalcX(event.mouseButton.x),
 											  coord_sys1.CoordReverseRecalcY(event.mouseButton.y),
 											  sf::Color::Magenta);

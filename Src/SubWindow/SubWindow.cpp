@@ -9,3 +9,10 @@ void SubWindow::Draw(sf::RenderWindow* window)
     
 	window->draw(sprite);
 }
+
+
+bool SubWindow::InSubWindow_p(double x, double y)
+{
+    return (this->x0 < x && x < this->x0 + this->getSize().x &&
+            this->y0 < y && y < this->y0 + this->getSize().y);
+}
