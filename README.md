@@ -1,6 +1,6 @@
 ## Chemistry simulator ##
 
-This is a educational C++ project visualization of a simple abstract chemistry reaction in gaseous phase  using SFML.
+This is a educational C++ project visualization of coordinate systems with vectors in them  using SFML.
 
 ## Configuration ##
 
