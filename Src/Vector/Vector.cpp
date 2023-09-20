@@ -54,7 +54,7 @@ double operator,(const Vector& a, const Vector& b)
 
 Vector operator!(const Vector& a)
 {
-    return Vector(a.x / a.VecLength(), a.y / a.VecLength());
+    return Vector(a.x / a.Length(), a.y / a.Length());
 }
 
 Vector operator+(const Vector& a)
@@ -68,7 +68,7 @@ Vector operator+(const Vector& a)
 Vector operator^(const Vector& a, double b)
 {
     Vector vec = a;
-    vec.RotateVector(-b);
+    vec.Rotate(-b);
     return vec;
 }
 
@@ -90,14 +90,14 @@ static void DrawTriangleTip(SubWindow* window, CoordSystem* coord_sys,
     double x1 = vec->GetX() + x0;
     double y1 = vec->GetY() + y0;
     
-    double normal_x = -vec->GetX() / vec->VecLength() / 10;
-    double normal_y = -vec->GetY() / vec->VecLength() / 10;
+    double normal_x = -vec->GetX() / vec->Length() / 10;
+    double normal_y = -vec->GetY() / vec->Length() / 10;
 
-    Vector left_side(normal_x, normal_y);
-    Vector right_side(normal_x, normal_y);
+    Vector left_side  = -(!(*vec)) / 10;
+    Vector right_side = -(!(*vec)) / 10;
 
-    left_side.RotateVector(45);
-    right_side.RotateVector(315);
+    left_side.Rotate(45);
+    right_side.Rotate(315);
 
     double vertex_coords[] = {x1, y1,
                               left_side.GetX() + x1, left_side.GetY() + y1,
@@ -121,13 +121,10 @@ static void DrawTriangleTipOptimized(SubWindow* window, CoordSystem* coord_sys,
     double x1 = vec->GetX() + x0;
     double y1 = vec->GetY() + y0;
 
-    double normal_x = vec->GetX() / vec->VecLength() / 10;
-    double normal_y = vec->GetY() / vec->VecLength() / 10;
+    Vector left_normal  =   +(!(*vec) / 10);
+    Vector right_normal = -(+(!(*vec) / 10));
 
-    Vector left_normal(normal_y, -normal_x);
-    Vector right_normal(-normal_y, normal_x);
-
-    Vector reverse(-normal_x, -normal_y);
+    Vector reverse = -!(*vec) / 10;
 
     Vector left_side  = left_normal  + reverse;
     Vector right_side = right_normal + reverse;
@@ -148,7 +145,7 @@ static void DrawTriangleTipOptimized(SubWindow* window, CoordSystem* coord_sys,
     window->draw(tip);
 }
 
-void Vector::DrawVector(SubWindow* window, CoordSystem* coord_sys,  
+void Vector::Draw(SubWindow* window, CoordSystem* coord_sys,  
                         double x0, double y0)
 {
     DrawTriangleTipOptimized(window, coord_sys, this, x0, y0);
@@ -168,12 +165,12 @@ void Vector::DrawVector(SubWindow* window, CoordSystem* coord_sys,
     window->draw(line, 2, sf::Lines);
 }
 
-inline double Vector::VecLength() const
+inline double Vector::Length() const
 { 
 	return sqrt(x*x + y*y);
 }
 
-void Vector::RotateVector(double deg)
+void Vector::Rotate(double deg)
 {
     double rad = M_PI / 180 * deg;
 

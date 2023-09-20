@@ -83,13 +83,13 @@ int main()
 		vectors1[4] = vectors1[4] ^ 0.01;
 
 		for (int i = 0; i < 5; i++)
-			vectors1[i].DrawVector(&window1, &coord_sys1, 0, 0);
+			vectors1[i].Draw(&window1, &coord_sys1, 0, 0);
 
 		for (int i = 0; i < 5; i++)
-			vectors2[i].DrawVector(&window2, &coord_sys2, 0, 0);
+			vectors2[i].Draw(&window2, &coord_sys2, 0, 0);
 
-		mouse_vector1.DrawVector(&window1, &coord_sys1, 0, 0);
-		mouse_vector2.DrawVector(&window2, &coord_sys2, 0, 0);
+		mouse_vector1.Draw(&window1, &coord_sys1, 0, 0);
+		mouse_vector2.Draw(&window2, &coord_sys2, 0, 0);
 
 		window1.Draw(&window);
 		window2.Draw(&window);

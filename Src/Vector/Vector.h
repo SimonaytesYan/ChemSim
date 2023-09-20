@@ -20,10 +20,10 @@ class Vector
     double    GetY()     {return y;};
     sf::Color GetColor() {return color;};
 
-    void DrawVector(SubWindow* texture, CoordSystem* coord_sys,  
+    void Draw(SubWindow* texture, CoordSystem* coord_sys,  
                     double x0, double y0);
-    inline double VecLength() const;
-    void RotateVector(double deg);
+    inline double Length() const;
+    void Rotate(double deg);
 
     friend Vector operator+(const Vector& a, const Vector& b);
     friend Vector operator-(const Vector& a);

@@ -1,4 +1,4 @@
-## Chemistry simulator ##
+## Vectors ##
 
 This is a educational C++ project visualization of coordinate systems with vectors in them  using SFML.
 
